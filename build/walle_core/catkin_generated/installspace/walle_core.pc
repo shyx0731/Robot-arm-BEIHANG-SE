@@ -1,8 +1,0 @@
-prefix=/home/syx/demo/install
-
-Name: walle_core
-Description: Description of walle_core
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
