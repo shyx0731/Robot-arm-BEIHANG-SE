@@ -1,0 +1,80 @@
+# 真机分拣参数（my_map.pgm / my_map.yaml）
+# ★ 真机与仿真调试（walle_real_in_sim.launch）共用此文件 ★
+
+zone_a_min_x: 0.0
+zone_a_min_y: 0.0
+zone_a_max_x: 1.0
+zone_a_max_y: 1.0
+table_height: 0.75
+zone_b_min_x: -2.0
+zone_b_min_y: 1.0
+zone_b_max_x: 0.0
+zone_b_max_y: 3.0
+zone_c_min_x: 1.0
+zone_c_min_y: -3.0
+zone_c_max_x: 3.0
+zone_c_max_y: -1.0
+home_x: 0.0
+home_y: 0.0
+
+show_opencv_window: false
+rgb_topic: /kinect2/hd/image_color_rect
+depth_topic: /kinect2/sd/image_depth_rect
+
+room_b_x: -1.0
+room_b_y: 2.0
+room_c_x: 2.0
+room_c_y: -2.0
+search_x: -1.5
+search_y: -5.52
+search_yaw: 3.14
+
+# 对位分两阶段：align_lr 只横移/转向，align_fwd 只前进（各阶段独立 align_timeout）
+# 前后靠近停止距离（米）：depth 对到该值后进入抓取
+grab_object_x: 0.65
+lift_grab_height: 0.80
+lift_carry_height: 0.95
+place_height: 0.55
+gripper_open: 0.16
+gripper_close: 0.035
+arm_settle_time: 3.5
+grab_y_offset: 0.0
+grab_forward_offset: 0.0
+back_distance: 0.40
+align_k_depth: 0.25
+align_k_lateral: 0.25
+align_k_yaw: 0.30
+align_max_v: 0.08
+align_max_w: 0.15
+align_tol_depth: 0.05
+align_tol_lateral: 0.04
+align_tol_yaw: 0.06
+# skip_navigation 时由 launch 设为 false，避免无 AMCL 时刷 TF 报错
+publish_map_detection: true
+align_timeout: 35.0
+align_depth_slack: 0.12
+camera_stale_sec: 1.5
+base_halt_sec: 0.6
+pre_grab_halt_sec: 1.0
+gripper_close_hold_sec: 4.0
+# 相机偏左安装时：夹爪在相机光轴右侧，目标在画面中应略偏右才能对准夹爪
+# 调参看 align 日志 [左右对齐] e_x / e_yaw，抓偏左则增大，偏右则减小
+gripper_camera_x: 0.03   # 横移目标（米），cam_x 对到此值
+gripper_pixel_x: 0.06    # 画面左右目标（-1~1），pixel 对到此值
+move_gain: 0.5
+move_max_v: 0.30
+move_tol: 0.02
+move_timeout: 20.0
+max_grab_attempts: 1
+use_grasp_verify: false
+grasp_verify_mode: none
+lift_success_dz: 0.05
+detect_timeout: 20.0
+set_initial_pose: false
+
+# 真机调试：true=跳过 move_base，手动停车后直接视觉抓取
+skip_navigation: true
+return_to_search_after_task: false
+
+gripper_open_threshold: 0.12
+gripper_closed_threshold: 0.14

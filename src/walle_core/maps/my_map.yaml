@@ -1,0 +1,8 @@
+image: my_map.pgm
+# 注意：文件名仍是 my_map.pgm，这里只修正了原来错误的绝对路径 /root/ros_workspace/my_map.pgm
+resolution: 0.050000
+origin: [-100.000000, -100.000000, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

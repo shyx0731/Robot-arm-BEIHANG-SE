@@ -1,0 +1,59 @@
+<!-- 
+文件名：wpb_home_slam_mapping.launch
+功能：独立的SLAM建图工具。启动仿真和gmapping，您需用键盘遥控机器人扫描整个环境，然后保存地图。
+-->
+
+<launch>
+  <!-- 1. 启动 Gazebo 世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find wpr_simulation)/worlds/robocup_home.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="recording" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- 2. 放置场景物体（桌子、箱子等），与您的分拣场景完全一致 -->
+  <node name="spawn_simple_table" pkg="gazebo_ros" type="spawn_model" 
+        args="-file $(find wpr_simulation)/models/table.model -urdf -model sorting_table -x 1.5 -y 1.5 -z 0 -Y 1.57" />
+  <!-- 箱子（可选，但建议加上，让地图包含它们） -->
+  <node name="red_box_1_1" pkg="gazebo_ros" type="spawn_model" 
+        args="-sdf -file $(find wpr_simulation)/models/cubes/red_cube.sdf -model red_box_1_1 -x 1.3 -y 1.3 -z 0.775" />
+  <node name="green_box_1_1" pkg="gazebo_ros" type="spawn_model" 
+        args="-sdf -file $(find wpr_simulation)/models/cubes/green_cube.sdf -model green_box_1_1 -x 1.5 -y 1.3 -z 0.775" />
+  <node name="yellow_box_1_1" pkg="gazebo_ros" type="spawn_model" 
+        args="-sdf -file $(find wpr_simulation)/models/cubes/yellow_cube.sdf -model yellow_box_1_1 -x 1.7 -y 1.3 -z 0.775" />
+
+  <!-- 3. 生成 WPB Home 机器人 -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-file $(find wpr_simulation)/models/wpb_home_mani.model -urdf -model wpb_home -x 0.0 -y 0.0 -z 0" />
+
+  <!-- 4. 加载机器人基础控制器 -->
+  <include file="$(find wpr_simulation)/launch/wpb_home_controllers.launch"/>
+
+  <!-- 5. 【核心】启动 gmapping SLAM 建图节点 -->
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <param name="base_frame" value="base_footprint"/>
+    <param name="odom_frame" value="odom"/>
+    <param name="map_update_interval" value="1.0"/>
+    <param name="maxUrange" value="6.0"/>
+    <param name="delta" value="0.05"/> <!-- 地图分辨率：5厘米/像素 -->
+    <!-- 其他参数使用合理默认值，已针对室内环境优化 -->
+    <param name="linearUpdate" value="0.5"/>
+    <param name="angularUpdate" value="0.5"/>
+    <param name="temporalUpdate" value="2.0"/>
+    <param name="particles" value="80"/>
+  </node>
+
+
+
+  <!-- 7. 启动 RViz，可视化建图过程 -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find wpr_simulation)/rviz/slam.rviz"/>
+  <!-- 如果没有 slam.rviz，使用以下命令启动一个空白RViz，然后手动添加显示项：
+       1. 添加 "Map" 显示，Topic 设为 /map
+       2. 添加 "LaserScan" 显示，Topic 设为 /scan
+       3. 添加 "RobotModel" 显示
+  -->
+
+</launch>

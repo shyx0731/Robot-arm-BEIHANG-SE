@@ -19,7 +19,7 @@ home_y: 0.0
 
 show_opencv_window: false
 rgb_topic: /kinect2/hd/image_color_rect
-depth_topic: /kinect2/sd/image_depth
+depth_topic: /kinect2/sd/image_depth_rect
 
 room_b_x: -2.5
 room_b_y: 2.0
@@ -29,7 +29,7 @@ search_x: 0.6
 search_y: 1.5
 search_yaw: 0.0
 grab_object_x: 0.50
-lift_grab_height: 0.80
+lift_grab_height: 0.78
 lift_carry_height: 0.95
 place_height: 0.55
 gripper_open: 0.16

@@ -1,0 +1,12 @@
+<!--
+  仅地图（无 AMCL / move_base）：skip_navigation 调试抓取时用。
+  map_server 提供 /map 和 map 帧；static map->odom 让 RViz/视觉 TF 不报错。
+  注意：此时 map 与 odom 重合，仅用于调试，不能用于导航。
+-->
+<launch>
+  <arg name="map_file" default="$(find walle_core)/maps/my_map.yaml"/>
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_odom_debug"
+        args="0 0 0 0 0 0 map odom"/>
+</launch>

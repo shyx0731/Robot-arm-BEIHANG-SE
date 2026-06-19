@@ -32,26 +32,29 @@
     <node name="spawn_simple_table" pkg="gazebo_ros" type="spawn_model"
           args="-file $(find wpr_simulation)/models/table.model -urdf -model sorting_table -x 1.5 -y 1.5 -z 0 -Y 0"/>
 
+    <!-- 箱子必须在桌子之后生成，否则会因竞态条件掉到地面 -->
+    <!-- 桌面顶部 z = 0.765 + 0.015 = 0.78，箱子底部需在 0.78 以上 -->
+    <!-- walle_gazebo_assets SDF 无 link pose 偏移，z=0.83 → 底部 0.78，刚好在桌面上 -->
     <node name="red_box_1_1" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/red_cube.sdf -model red_box_1_1 -x 1.4 -y 1.1 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_1_1 -x 1.4 -y 1.1 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="red_box_1_2" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/red_cube.sdf -model red_box_1_2 -x 1.4 -y 1.3 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_1_2 -x 1.4 -y 1.3 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="red_box_2_1" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/red_cube.sdf -model red_box_2_1 -x 1.4 -y 1.5 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_2_1 -x 1.4 -y 1.5 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="red_box_3_1" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/red_cube.sdf -model red_box_3_1 -x 1.4 -y 1.7 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_3_1 -x 1.4 -y 1.7 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="green_box_1_1" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/green_cube.sdf -model green_box_1_1 -x 1.4 -y 1.9 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_1_1 -x 1.4 -y 1.9 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="green_box_1_2" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/green_cube.sdf -model green_box_1_2 -x 1.6 -y 1.1 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_1_2 -x 1.6 -y 1.1 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="green_box_2_1" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/green_cube.sdf -model green_box_2_1 -x 1.6 -y 1.3 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_2_1 -x 1.6 -y 1.3 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="yellow_box_1_1" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/yellow_cube.sdf -model yellow_box_1_1 -x 1.6 -y 1.5 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_1_1 -x 1.6 -y 1.5 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="yellow_box_1_2" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/yellow_cube.sdf -model yellow_box_1_2 -x 1.6 -y 1.7 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_1_2 -x 1.6 -y 1.7 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
     <node name="yellow_box_2_1" pkg="gazebo_ros" type="spawn_model"
-          args="-sdf -file $(find wpr_simulation)/models/cubes/yellow_cube.sdf -model yellow_box_2_1 -x 1.6 -y 1.9 -z 0.79"/>
+          args="-sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_2_1 -x 1.6 -y 1.9 -z 0.83" launch-prefix="bash -c 'sleep 3; $0 $@' "/>
   </group>
 
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"

@@ -1,0 +1,63 @@
+# 仿真分拣参数（wpb_gmapping_map 地图）
+# 对应 launch: roslaunch walle_core walle_sorting.launch sim:=true
+
+zone_a_min_x: 1.25
+zone_a_min_y: 0.92
+zone_a_max_x: 1.75
+zone_a_max_y: 2.08
+table_height: 0.75
+zone_b_min_x: -3.5
+zone_b_min_y: 1.0
+zone_b_max_x: -1.5
+zone_b_max_y: 3.0
+zone_c_min_x: 1.5
+zone_c_min_y: -3.0
+zone_c_max_x: 3.5
+zone_c_max_y: -1.0
+home_x: 0.0
+home_y: 0.0
+
+show_opencv_window: false
+rgb_topic: /kinect2/hd/image_color_rect
+depth_topic: /kinect2/sd/image_depth_rect
+
+room_b_x: -2.5
+room_b_y: 2.0
+room_c_x: 2.5
+room_c_y: -1.9
+search_x: 0.6
+search_y: 1.5
+search_yaw: 0.0
+grab_object_x: 0.50
+lift_grab_height: 0.80
+lift_carry_height: 0.95
+place_height: 0.55
+gripper_open: 0.16
+gripper_close: 0.032
+grab_y_offset: 0.0
+grab_forward_offset: 0.0
+back_distance: 0.40
+align_k_depth: 0.25
+align_k_lateral: 0.45
+align_k_yaw: 0.45
+align_max_v: 0.10
+align_max_w: 0.25
+align_tol_depth: 0.04
+align_tol_lateral: 0.025
+align_tol_yaw: 0.05
+align_timeout: 25.0
+gripper_camera_x: 0.0
+gripper_pixel_x: 0.0
+move_gain: 0.5
+move_max_v: 0.30
+move_tol: 0.02
+move_timeout: 20.0
+max_grab_attempts: 3
+use_grasp_verify: true
+grasp_verify_mode: gazebo
+lift_success_dz: 0.05
+detect_timeout: 20.0
+set_initial_pose: true
+
+gripper_open_threshold: 0.12
+gripper_closed_threshold: 0.14

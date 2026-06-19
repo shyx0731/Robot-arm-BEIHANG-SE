@@ -1,0 +1,81 @@
+<!--
+  统一分拣启动入口（仿真 + 真机）
+
+  仿真（Gazebo + wpb_gmapping_map）：
+    roslaunch walle_core walle_sorting.launch sim:=true
+
+  真机（my_map.pgm / my_map.yaml）：
+    roslaunch walle_core walle_sorting.launch sim:=false
+    或
+    roslaunch walle_core walle_real.launch
+
+  指令：
+    rostopic pub -1 /walle/command std_msgs/String "red B"
+-->
+<launch>
+  <arg name="sim" default="false"/>
+  <arg name="map_file" default="$(find walle_core)/maps/my_map.yaml"/>
+  <arg name="config_file" default="$(find walle_core)/config/my_map_sorting.yaml"/>
+  <arg name="enable_gui" default="true"/>
+  <arg name="vision_mode" default="kinect"/>
+  <arg name="show_vision_window" default="false"/>
+  <arg name="enable_grasp_verify" default="false"/>
+  <arg name="serial_port" default="/dev/ftdi"/>
+  <arg name="lidar_port" default="/dev/rplidar"/>
+  <arg name="fsm_startup_delay" default="5"/>
+  <arg name="skip_navigation" default="false"/>
+
+  <group if="$(arg sim)">
+    <param name="use_sim_time" value="true"/>
+    <include file="$(find walle_core)/launch/includes/sim_gazebo.launch">
+      <arg name="enable_gui" value="$(arg enable_gui)"/>
+    </include>
+  </group>
+
+  <group unless="$(arg sim)">
+    <param name="use_sim_time" value="false"/>
+    <include file="$(find walle_core)/launch/includes/real_hardware.launch">
+      <arg name="serial_port" value="$(arg serial_port)"/>
+      <arg name="lidar_port" value="$(arg lidar_port)"/>
+    </include>
+  </group>
+
+  <group if="$(arg skip_navigation)">
+    <include file="$(find walle_core)/launch/includes/sorting_map_only.launch">
+      <arg name="map_file" value="$(arg map_file)"/>
+    </include>
+  </group>
+
+  <group unless="$(arg skip_navigation)">
+    <include file="$(find walle_core)/launch/includes/sorting_navigation.launch">
+      <arg name="map_file" value="$(arg map_file)"/>
+    </include>
+  </group>
+
+  <group if="$(arg sim)">
+    <include file="$(find walle_core)/launch/includes/sorting_business.launch">
+      <arg name="config_file" value="$(arg config_file)"/>
+      <arg name="vision_mode" value="$(arg vision_mode)"/>
+      <arg name="show_vision_window" value="$(arg show_vision_window)"/>
+      <arg name="fsm_startup_delay" value="$(arg fsm_startup_delay)"/>
+    </include>
+  </group>
+
+  <group unless="$(arg sim)">
+    <include file="$(find walle_core)/launch/includes/real_business.launch">
+      <arg name="config_file" value="$(arg config_file)"/>
+      <arg name="show_vision_window" value="$(arg show_vision_window)"/>
+      <arg name="enable_grasp_verify" value="$(arg enable_grasp_verify)"/>
+      <arg name="fsm_startup_delay" value="$(arg fsm_startup_delay)"/>
+      <arg name="skip_navigation" value="$(arg skip_navigation)"/>
+    </include>
+  </group>
+
+  <group if="$(arg enable_gui)">
+    <node pkg="image_view" type="image_view" name="vision_debug_view" required="false">
+      <remap from="image" to="/vision/debug_image"/>
+      <param name="autosize" value="true"/>
+    </node>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find walle_core)/rviz/my_nav.rviz"/>
+  </group>
+</launch>

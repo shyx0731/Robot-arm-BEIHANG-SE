@@ -1,0 +1,38 @@
+<!--
+  仿真业务节点（src/stimulation/ 专用，对应 wpb_gmapping_map）
+-->
+<launch>
+  <arg name="config_file" default="$(find walle_core)/config/sim_sorting.yaml"/>
+  <arg name="vision_mode" default="kinect"/>
+  <arg name="show_vision_window" default="false"/>
+  <arg name="enable_grasp_verify" default="false"/>
+  <arg name="fsm_startup_delay" default="5"/>
+
+  <node pkg="walle_core" type="zone_manager.py" name="zone_manager" output="screen">
+    <rosparam file="$(arg config_file)" command="load"/>
+  </node>
+
+  <group if="$(eval arg('vision_mode') == 'kinect')">
+    <node pkg="walle_core" type="real_vision_node.py" name="real_vision_node" output="screen">
+      <rosparam file="$(arg config_file)" command="load"/>
+      <param name="show_opencv_window" value="$(arg show_vision_window)"/>
+    </node>
+  </group>
+  <group unless="$(eval arg('vision_mode') == 'kinect')">
+    <node pkg="walle_core" type="vision_simulator.py" name="vision_simulator" output="screen"/>
+  </group>
+
+  <group if="$(arg enable_grasp_verify)">
+    <node pkg="walle_core" type="grasp_verify_node.py" name="grasp_verify_node" output="screen">
+      <rosparam file="$(arg config_file)" command="load"/>
+    </node>
+  </group>
+
+  <node pkg="walle_core" type="fsm_node.py" name="fsm_node" output="screen"
+        launch-prefix="bash -c 'sleep $(arg fsm_startup_delay); exec $0 $@' --">
+    <rosparam file="$(arg config_file)" command="load"/>
+    <!-- 默认由 yaml 决定；真机可选 enable_grasp_verify:=true 强制开启夹爪检测 -->
+    <param if="$(arg enable_grasp_verify)" name="use_grasp_verify" value="true"/>
+    <param if="$(arg enable_grasp_verify)" name="grasp_verify_mode" value="joint"/>
+  </node>
+</launch>

@@ -1,0 +1,44 @@
+<launch>
+  <!-- 1. 启动 Gazebo 世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find wpr_simulation)/worlds/simple.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="recording" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- 2. 生成桌子（放在机器人正前方1.2米处） -->
+  <node name="spawn_table" pkg="gazebo_ros" type="spawn_model" 
+        args="-file $(find wpr_simulation)/models/table.model -x 1.2 -y 0.0 -z 0 -Y 0 -urdf -model table" />
+
+  <!-- 3. 生成彩色箱子（使用刚创建的SDF文件，放在桌子上） -->
+  <!-- 注意：z坐标需要仔细计算。桌子高0.75m，箱子高0.1m，要放在桌面上，箱子底部在z=0.75，箱子中心在z=0.75+0.05=0.8 -->
+  <!-- 但我们的箱子模型内部已经有一个<pose>0 0 0.05 0 0 0</pose>，所以实际生成时，我们指定箱子的中心位置为z=0.8 -->
+  <!-- 红色箱子 -->
+  <node name="spawn_red_cube" pkg="gazebo_ros" type="spawn_model" 
+        args="-file $(find wpr_simulation)/models/cubes/red_cube.sdf -sdf -model red_cube -x 1.1 -y 0.3 -z 0.8" />
+  
+  <!-- 绿色箱子 -->
+  <node name="spawn_green_cube" pkg="gazebo_ros" type="spawn_model" 
+        args="-file $(find wpr_simulation)/models/cubes/green_cube.sdf -sdf -model green_cube -x 1.1 -y 0.0 -z 0.8" />
+  
+  <!-- 黄色箱子 -->
+  <node name="spawn_yellow_cube" pkg="gazebo_ros" type="spawn_model" 
+        args="-file $(find wpr_simulation)/models/cubes/yellow_cube.sdf -sdf -model yellow_cube -x 1.1 -y -0.3 -z 0.8" />
+
+  <!-- 4. 生成WPB Home机器人（有机械臂的版本） -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-file $(find wpr_simulation)/models/wpb_home_mani.model -urdf -model wpb_home" />
+
+  <!-- 5. 加载WPB Home基础控制器（不包含grab_action等高级节点） -->
+  <include file="$(find wpr_simulation)/launch/wpb_home_controllers.launch"/>
+
+  <!-- 6. 启动关节状态发布器 -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+  <!-- 7. 启动机器人状态发布器（用于tf变换） -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+</launch>

@@ -7,7 +7,9 @@
 
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
 
-  <include file="$(find wpb_home_tutorials)/nav_lidar/amcl_omni.launch"/>
+  <include file="$(find wpb_home_tutorials)/nav_lidar/amcl_omni.launch">
+    <param name="transform_tolerance" value="1.0"/>
+  </include>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find wpb_home_tutorials)/nav_lidar/costmap_common_params.yaml" command="load" ns="global_costmap"/>

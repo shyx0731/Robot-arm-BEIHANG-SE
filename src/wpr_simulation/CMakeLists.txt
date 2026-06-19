@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge 
   image_transport
   nav_msgs
+  gazebo_ros
 )
 
 # Find Gazebo
@@ -123,7 +124,7 @@ find_package(OpenCV REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES wpr_simulation
+  LIBRARIES wpr_plugin
 #  CATKIN_DEPENDS controller_manager joint_state_controller robot_state_publisher roscpp rospy std_msgs
 #  DEPENDS system_lib
 )

@@ -1,0 +1,26 @@
+<!--
+  导航栈（仿真/真机共用）：map_server + AMCL + move_base
+  move_base/cmd_vel 由 fsm_node 转发，避免和抓取控制抢 /cmd_vel
+-->
+<launch>
+  <arg name="map_file" default="$(find walle_core)/maps/my_map.yaml"/>
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <include file="$(find wpb_home_tutorials)/nav_lidar/amcl_omni.launch"/>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find wpb_home_tutorials)/nav_lidar/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find wpb_home_tutorials)/nav_lidar/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find wpb_home_tutorials)/nav_lidar/local_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find wpb_home_tutorials)/nav_lidar/global_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find wpb_home_tutorials)/nav_lidar/local_planner_params.yaml" command="load"/>
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    <param name="use_dijkstra" value="true"/>
+    <param name="base_local_planner" value="wpbh_local_planner/WpbhLocalPlanner"/>
+    <param name="controller_frequency" value="10.0"/>
+    <param name="oscillation_timeout" value="8.0"/>
+    <param name="oscillation_distance" value="0.2"/>
+    <remap from="cmd_vel" to="move_base/cmd_vel"/>
+  </node>
+</launch>
