@@ -20,6 +20,7 @@
   <arg name="vision_mode" default="kinect"/>
   <arg name="show_vision_window" default="false"/>
   <arg name="enable_grasp_verify" default="false"/>
+  <arg name="spawn_sorting_scene" default="true"/>
   <arg name="serial_port" default="/dev/ftdi"/>
   <arg name="lidar_port" default="/dev/rplidar"/>
   <arg name="fsm_startup_delay" default="5"/>
@@ -28,6 +29,7 @@
     <param name="use_sim_time" value="true"/>
     <include file="$(find walle_core)/launch/includes/sim_gazebo.launch">
       <arg name="enable_gui" value="$(arg enable_gui)"/>
+      <arg name="spawn_sorting_scene" value="$(arg spawn_sorting_scene)"/>
     </include>
   </group>
 

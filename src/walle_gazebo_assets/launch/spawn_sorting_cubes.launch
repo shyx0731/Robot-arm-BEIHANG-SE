@@ -13,23 +13,23 @@
   <arg name="cube_z" default="0.79"/>
 
   <node name="red_box_1_1" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_1_1 -x 1.4 -y 1.1 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_1_1 -x 1.4 -y 1.1 -z $(arg cube_z)"/>
   <node name="red_box_1_2" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_1_2 -x 1.4 -y 1.3 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_1_2 -x 1.4 -y 1.3 -z $(arg cube_z)"/>
   <node name="red_box_2_1" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_2_1 -x 1.4 -y 1.5 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_2_1 -x 1.4 -y 1.5 -z $(arg cube_z)"/>
   <node name="red_box_3_1" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_3_1 -x 1.4 -y 1.7 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/red_cube.sdf -model red_box_3_1 -x 1.4 -y 1.7 -z $(arg cube_z)"/>
   <node name="green_box_1_1" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_1_1 -x 1.4 -y 1.9 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_1_1 -x 1.4 -y 1.9 -z $(arg cube_z)"/>
   <node name="green_box_1_2" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_1_2 -x 1.6 -y 1.1 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_1_2 -x 1.6 -y 1.1 -z $(arg cube_z)"/>
   <node name="green_box_2_1" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_2_1 -x 1.6 -y 1.3 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/green_cube.sdf -model green_box_2_1 -x 1.6 -y 1.3 -z $(arg cube_z)"/>
   <node name="yellow_box_1_1" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_1_1 -x 1.6 -y 1.5 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_1_1 -x 1.6 -y 1.5 -z $(arg cube_z)"/>
   <node name="yellow_box_1_2" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_1_2 -x 1.6 -y 1.7 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_1_2 -x 1.6 -y 1.7 -z $(arg cube_z)"/>
   <node name="yellow_box_2_1" pkg="gazebo_ros" type="spawn_model"
-        args="-wait -sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_2_1 -x 1.6 -y 1.9 -z $(arg cube_z)"/>
+        args="-sdf -file $(find walle_gazebo_assets)/models/cubes/yellow_cube.sdf -model yellow_box_2_1 -x 1.6 -y 1.9 -z $(arg cube_z)"/>
 </launch>

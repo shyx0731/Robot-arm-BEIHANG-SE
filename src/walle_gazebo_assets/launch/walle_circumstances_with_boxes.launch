@@ -1,16 +1,24 @@
 <!--
-  仿真分拣 + 桌上彩色箱子（推荐入口）
+  仿真分拣场景（仅 Gazebo + 桌子 + 彩色箱子）
 
-  终端 1：
+  这个入口只负责把场景拉起来，不启动 walle_core 的控制器/业务节点，
+  避免卡在 controller_spawner / 视觉节点上。
+
+  运行：
     roslaunch walle_gazebo_assets walle_circumstances_with_boxes.launch
-
-  终端 2（Web 控制台，可选）：
-    roslaunch walle_web_console web_ui.launch
-
-  终端 2（RQT 控制台，可选）：
-    roslaunch rqt_task_dashboard walle_dashboard.launch
 -->
 <launch>
-  <include file="$(find walle_core)/launch/walle_circumstances.launch"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find wpr_simulation)/worlds/robocup_home.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="recording" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <node name="spawn_simple_table" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find wpr_simulation)/models/table.model -urdf -model sorting_table -x 1.5 -y 1.5 -z 0 -Y 0"/>
+
   <include file="$(find walle_gazebo_assets)/launch/spawn_sorting_cubes.launch"/>
 </launch>
