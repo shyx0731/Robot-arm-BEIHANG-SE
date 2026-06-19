@@ -1,0 +1,23 @@
+<!--
+  Walle 分拣控制台（对接 walle_core 后端）
+
+  使用前请先启动分拣系统，例如：
+    roslaunch walle_core walle_circumstances.launch
+
+  再启动本面板：
+    roslaunch rqt_task_dashboard walle_dashboard.launch
+-->
+<launch>
+  <node pkg="rqt_gui" type="rqt_gui" name="walle_task_dashboard"
+        args="--standalone rqt_task_dashboard" output="screen">
+    <param name="command_topic" value="/walle/command"/>
+    <param name="task_status_topic" value="/task/status"/>
+    <param name="robot_pose_topic" value="/odom"/>
+    <param name="battery_state_topic" value="/battery_state"/>
+    <param name="video_topic" value="/vision/debug_image"/>
+    <param name="box_camera_topic" value="/vision/box_camera"/>
+    <param name="cmd_vel_topic" value="/cmd_vel"/>
+    <param name="video_max_fps" value="15.0"/>
+    <param name="stats_file" value=""/>
+  </node>
+</launch>

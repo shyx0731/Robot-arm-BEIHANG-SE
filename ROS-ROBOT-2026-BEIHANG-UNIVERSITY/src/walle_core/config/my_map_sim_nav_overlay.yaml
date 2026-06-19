@@ -1,0 +1,23 @@
+# 仿真 Gazebo 桌位导航覆盖（可选，use_gazebo_nav:=true 时加载）
+# 坐标对齐 wpb_gmapping_map / Gazebo 桌子场景。
+# 上真机时不要加载此文件，只用 my_map_sorting.yaml。
+
+search_x: 0.6
+search_y: 1.5
+search_yaw: 0.0
+room_b_x: -2.5
+room_b_y: 2.0
+room_c_x: 2.5
+room_c_y: -1.9
+zone_a_min_x: 1.25
+zone_a_min_y: 0.92
+zone_a_max_x: 1.75
+zone_a_max_y: 2.08
+zone_b_min_x: -3.5
+zone_b_min_y: 1.0
+zone_b_max_x: -1.5
+zone_b_max_y: 3.0
+zone_c_min_x: 1.5
+zone_c_min_y: -3.0
+zone_c_max_x: 3.5
+zone_c_max_y: -1.0

@@ -1,0 +1,16 @@
+<!--
+  仿真分拣 + 桌上彩色箱子（推荐入口）
+
+  终端 1：
+    roslaunch walle_gazebo_assets walle_circumstances_with_boxes.launch
+
+  终端 2（Web 控制台，可选）：
+    roslaunch walle_web_console web_ui.launch
+
+  终端 2（RQT 控制台，可选）：
+    roslaunch rqt_task_dashboard walle_dashboard.launch
+-->
+<launch>
+  <include file="$(find walle_core)/launch/walle_circumstances.launch"/>
+  <include file="$(find walle_gazebo_assets)/launch/spawn_sorting_cubes.launch"/>
+</launch>

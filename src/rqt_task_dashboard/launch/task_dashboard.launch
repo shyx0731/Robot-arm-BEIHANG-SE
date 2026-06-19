@@ -1,0 +1,4 @@
+<!-- 兼容旧命令，默认使用 Walle 后端话题 -->
+<launch>
+  <include file="$(find rqt_task_dashboard)/launch/walle_dashboard.launch"/>
+</launch>

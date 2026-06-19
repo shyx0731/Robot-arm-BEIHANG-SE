@@ -1,0 +1,60 @@
+<!--
+  仿真里跑 real/ 代码 + my_map（sim2real 调试）
+
+  ★ 和 walle_circumstances 的区别 ★
+    - 不加载 robocup_home 仿真房间
+    - 不生成仿真桌子、仿真彩色箱子
+    - map_server 只加载 maps/my_map.yaml（你的真机建图）
+    - 业务代码走 src/real/，参数走 my_map_sorting.yaml
+
+  启动：
+    roslaunch walle_core walle_real_in_sim.launch
+
+  RViz 里看 /map 应是 my_map 的形状（不是 wpb_gmapping_map）。
+  Gazebo 里只有空地面 + 机器人（没有仿真家具）。
+
+  指令：
+    rostopic pub -1 /walle/command std_msgs/String "red B"
+-->
+<launch>
+  <arg name="map_file" default="$(find walle_core)/maps/my_map.yaml"/>
+  <arg name="config_file" default="$(find walle_core)/config/my_map_sorting.yaml"/>
+  <arg name="hw_overlay" default="$(find walle_core)/config/my_map_sim_hw_overlay.yaml"/>
+  <arg name="auto_initial_pose" default="false"/>
+  <arg name="enable_gui" default="true"/>
+  <arg name="show_vision_window" default="false"/>
+  <arg name="enable_grasp_verify" default="false"/>
+  <arg name="fsm_startup_delay" default="8"/>
+
+  <param name="use_sim_time" value="true"/>
+
+  <!-- 空 Gazebo：只有机器人，无仿真桌子/箱子/robocup 房间 -->
+  <include file="$(find walle_core)/launch/includes/sim_gazebo.launch">
+    <arg name="enable_gui" value="$(arg enable_gui)"/>
+    <arg name="spawn_sorting_scene" value="false"/>
+  </include>
+
+  <!-- 导航栈：强制 my_map -->
+  <include file="$(find walle_core)/launch/includes/sorting_navigation.launch">
+    <arg name="map_file" value="$(arg map_file)"/>
+  </include>
+
+  <include file="$(find walle_core)/launch/includes/real_business.launch">
+    <arg name="config_file" value="$(arg config_file)"/>
+    <arg name="overlay_file" value="$(arg hw_overlay)"/>
+    <arg name="nav_overlay_file" value=""/>
+    <arg name="use_nav_overlay" value="false"/>
+    <arg name="auto_initial_pose" value="$(arg auto_initial_pose)"/>
+    <arg name="show_vision_window" value="$(arg show_vision_window)"/>
+    <arg name="enable_grasp_verify" value="$(arg enable_grasp_verify)"/>
+    <arg name="fsm_startup_delay" value="$(arg fsm_startup_delay)"/>
+  </include>
+
+  <group if="$(arg enable_gui)">
+    <node pkg="image_view" type="image_view" name="vision_debug_view" required="false">
+      <remap from="image" to="/vision/debug_image"/>
+      <param name="autosize" value="true"/>
+    </node>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find walle_core)/rviz/my_nav.rviz"/>
+  </group>
+</launch>

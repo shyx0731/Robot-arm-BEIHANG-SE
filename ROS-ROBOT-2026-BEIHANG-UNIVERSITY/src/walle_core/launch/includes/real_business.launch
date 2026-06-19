@@ -1,0 +1,43 @@
+<!--
+  真机业务节点（src/real/），仿真调试 walle_real_in_sim.launch 也走这里。
+  参数：config/my_map_sorting.yaml（真机/仿真调试共用）
+  仿真额外覆盖：overlay_file（Kinect 话题）、nav_overlay_file（可选 Gazebo 桌位）
+-->
+<launch>
+  <arg name="config_file" default="$(find walle_core)/config/my_map_sorting.yaml"/>
+  <arg name="overlay_file" default=""/>
+  <arg name="nav_overlay_file" default=""/>
+  <arg name="use_nav_overlay" default="false"/>
+  <arg name="auto_initial_pose" default="false"/>
+  <arg name="show_vision_window" default="false"/>
+  <arg name="enable_grasp_verify" default="false"/>
+  <arg name="fsm_startup_delay" default="5"/>
+
+  <node pkg="walle_core" type="real_zone_manager.py" name="zone_manager" output="screen">
+    <rosparam file="$(arg config_file)" command="load"/>
+    <rosparam if="$(eval overlay_file != '')" file="$(arg overlay_file)" command="load"/>
+    <rosparam if="$(arg use_nav_overlay)" file="$(arg nav_overlay_file)" command="load"/>
+  </node>
+
+  <node pkg="walle_core" type="real_robot_vision_node.py" name="real_vision_node" output="screen">
+    <rosparam file="$(arg config_file)" command="load"/>
+    <rosparam if="$(eval overlay_file != '')" file="$(arg overlay_file)" command="load"/>
+    <param name="show_opencv_window" value="$(arg show_vision_window)"/>
+  </node>
+
+  <group if="$(arg enable_grasp_verify)">
+    <node pkg="walle_core" type="grasp_verify_node.py" name="grasp_verify_node" output="screen">
+      <rosparam file="$(arg config_file)" command="load"/>
+    </node>
+  </group>
+
+  <node pkg="walle_core" type="real_fsm_node.py" name="fsm_node" output="screen"
+        launch-prefix="bash -c 'sleep $(arg fsm_startup_delay); exec $0 $@' --">
+    <rosparam file="$(arg config_file)" command="load"/>
+    <rosparam if="$(eval overlay_file != '')" file="$(arg overlay_file)" command="load"/>
+    <rosparam if="$(arg use_nav_overlay)" file="$(arg nav_overlay_file)" command="load"/>
+    <param name="set_initial_pose" value="$(arg auto_initial_pose)"/>
+    <param if="$(arg enable_grasp_verify)" name="use_grasp_verify" value="true"/>
+    <param if="$(arg enable_grasp_verify)" name="grasp_verify_mode" value="joint"/>
+  </node>
+</launch>

@@ -1,0 +1,26 @@
+# ROS / Catkin
+build/
+devel/
+install/
+logs/
+.catkin_workspace
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local data
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walle 分拣控制台 · 北航 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <h1>Walle 仓储分拣控制台</h1>
+        <p>北航 2026 · 实时状态 · 抓取控制 · 视觉回显</p>
+      </div>
+      <div class="conn-bar">
+        <div id="conn-dot" class="conn-dot"></div>
+        <span id="conn-label">未连接</span>
+        <input type="text" id="ws-url" placeholder="ws://localhost:9090">
+        <button id="btn-connect" class="btn btn-primary" type="button">连接 ROS</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="col-left">
+        <section class="card">
+          <h2>运行状态</h2>
+          <div class="status-row">
+            <div id="state-lamp" class="state-lamp"></div>
+            <div id="status-badge" class="status-text">空闲</div>
+          </div>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">里程计</span>
+              <span id="pose-text" class="value">x=0.00, y=0.00, yaw=0.00</span>
+            </div>
+          </div>
+          <div id="pipeline" class="pipeline"></div>
+        </section>
+
+        <section class="card">
+          <h2>箱子检测（实时）</h2>
+          <div class="detections">
+            <div id="det-red" class="det-card"><span class="dot red"></span>红色<span class="val">未检测</span></div>
+            <div id="det-green" class="det-card"><span class="dot green"></span>绿色<span class="val">未检测</span></div>
+            <div id="det-yellow" class="det-card"><span class="dot yellow"></span>黄色<span class="val">未检测</span></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>抓取 / 分拣控制</h2>
+          <div class="controls">
+            <label>颜色
+              <select id="sel-color">
+                <option value="red">红色</option>
+                <option value="green">绿色</option>
+                <option value="yellow">黄色</option>
+              </select>
+            </label>
+            <label>房间
+              <select id="sel-room">
+                <option value="B">房间 B</option>
+                <option value="C">房间 C</option>
+              </select>
+            </label>
+          </div>
+          <div class="action-row">
+            <button id="btn-send" class="btn btn-send" type="button" disabled>发送分拣指令</button>
+            <button id="btn-stop" class="btn btn-stop" type="button">急停</button>
+          </div>
+          <div class="quick-cmds">
+            <button type="button" class="quick-cmd" data-cmd="red B">红→B</button>
+            <button type="button" class="quick-cmd" data-cmd="red C">红→C</button>
+            <button type="button" class="quick-cmd" data-cmd="green B">绿→B</button>
+            <button type="button" class="quick-cmd" data-cmd="green C">绿→C</button>
+            <button type="button" class="quick-cmd" data-cmd="yellow B">黄→B</button>
+            <button type="button" class="quick-cmd" data-cmd="yellow C">黄→C</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>任务记录</h2>
+          <table class="task-table">
+            <thead><tr><th>ID</th><th>颜色</th><th>房间</th><th>状态</th></tr></thead>
+            <tbody id="task-tbody"></tbody>
+          </table>
+          <div class="stats-row">
+            <span id="stat-total">总任务: 0</span>
+            <span id="stat-success">成功率: 0%</span>
+            <button id="btn-clear" class="btn btn-ghost" type="button">清空记录</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-right">
+        <section class="card video-card">
+          <h2>视觉调试画面（实时）</h2>
+          <div class="preview-wrap">
+            <img id="vision-preview" alt="视觉调试" style="display:none">
+            <div id="preview-placeholder" class="preview-placeholder">
+              连接后显示 /vision/debug_image/compressed
+            </div>
+          </div>
+          <div class="video-foot">
+            <span>/vision/debug_image</span>
+            <span id="fps-label">FPS: --</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>操作日志</h2>
+          <div id="log-box" class="log-box"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>

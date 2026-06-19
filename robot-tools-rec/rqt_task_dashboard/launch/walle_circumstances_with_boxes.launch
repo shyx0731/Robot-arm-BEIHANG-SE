@@ -1,0 +1,9 @@
+<!--
+  仿真分拣 + 补生成彩色箱子（推荐）
+
+  roslaunch rqt_task_dashboard walle_circumstances_with_boxes.launch
+-->
+<launch>
+  <include file="$(find walle_core)/launch/walle_circumstances.launch"/>
+  <include file="$(find rqt_task_dashboard)/launch/spawn_sorting_cubes.launch"/>
+</launch>

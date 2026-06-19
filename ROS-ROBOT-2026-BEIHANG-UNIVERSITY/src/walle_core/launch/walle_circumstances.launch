@@ -1,0 +1,9 @@
+<!-- 仿真入口（兼容旧命令） -->
+<launch>
+  <include file="$(find walle_core)/launch/walle_sorting.launch">
+    <arg name="sim" value="true"/>
+    <arg name="map_file" value="$(find walle_core)/maps/wpb_gmapping_map.yaml"/>
+    <arg name="config_file" value="$(find walle_core)/config/sim_sorting.yaml"/>
+    <arg name="fsm_startup_delay" value="8"/>
+  </include>
+</launch>

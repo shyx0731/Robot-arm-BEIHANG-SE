@@ -1,0 +1,24 @@
+<launch>
+    <!-- 定义一个参数，默认我们用仿真 -->
+    <arg name="use_sim" default="true" />
+
+    <!-- ============================================== -->
+    <!-- 硬件层：根据参数决定启动仿真还是真机 -->
+    <!-- ============================================== -->
+    <group if="$(arg use_sim)">
+        <!-- 如果 use_sim 是 true，启动 Gazebo 仿真 -->
+        <include file="$(find wpr_simulation)/launch/wpb_table.launch" />
+    </group>
+
+    <group unless="$(arg use_sim)">
+        <!-- 如果 use_sim 是 false，说明连了真机，启动真机驱动 -->
+        <!-- (这里的 normal.launch 请替换成你们老师给的真机启动文件名) -->
+        <include file="$(find wpb_home_bringup)/launch/normal.launch" />
+    </group>
+
+    <!-- ============================================== -->
+    <!-- 大脑层：无论真机还是仿真，你们写的代码绝对不变！ -->
+    <!-- ============================================== -->
+
+    <node pkg="walle_core" type="fsm_core.py" name="fsm_core" output="screen" />
+</launch>

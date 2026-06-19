@@ -1,0 +1,33 @@
+<!--
+  Web 控制台（需先启动 walle_core 分拣系统）
+
+  启动：
+    roslaunch walle_web_console web_ui.launch
+
+  浏览器：
+    http://localhost:8080
+
+  依赖：
+    sudo apt install ros-noetic-rosbridge-server ros-noetic-rosapi
+-->
+<launch>
+  <arg name="port" default="8080"/>
+  <arg name="rosbridge_port" default="9090"/>
+  <arg name="enable_vision_stream" default="true"/>
+
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    <arg name="port" value="$(arg rosbridge_port)"/>
+  </include>
+
+  <node pkg="rosapi" type="rosapi_node" name="rosapi"/>
+
+  <node pkg="walle_web_console" type="web_server.py" name="walle_web_server" output="screen">
+    <param name="port" value="$(arg port)"/>
+  </node>
+
+  <group if="$(arg enable_vision_stream)">
+    <node pkg="image_transport" type="republish" name="vision_debug_compressed"
+          args="raw in:=/vision/debug_image compressed out:=/vision/debug_image/compressed"
+          required="false"/>
+  </group>
+</launch>

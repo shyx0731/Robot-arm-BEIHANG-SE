@@ -1,0 +1,10 @@
+<!-- 真机入口：my_map + real/ 代码（与 walle_real_in_sim 调试版共用 my_map_sorting.yaml） -->
+<launch>
+  <include file="$(find walle_core)/launch/walle_sorting.launch">
+    <arg name="sim" value="false"/>
+    <arg name="map_file" value="$(find walle_core)/maps/my_map.yaml"/>
+    <arg name="config_file" value="$(find walle_core)/config/my_map_sorting.yaml"/>
+    <arg name="enable_grasp_verify" value="false"/>
+    <arg name="fsm_startup_delay" value="5"/>
+  </include>
+</launch>

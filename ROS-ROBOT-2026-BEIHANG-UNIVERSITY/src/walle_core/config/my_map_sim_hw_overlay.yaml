@@ -1,0 +1,5 @@
+# 仿真调试覆盖层（在 my_map_sorting.yaml 之后加载）
+# 只改 Gazebo 与真机 Kinect 的话题差异，不改导航点/抓取参数。
+# 真机 launch 不加载此文件。
+
+depth_topic: /kinect2/sd/image_depth

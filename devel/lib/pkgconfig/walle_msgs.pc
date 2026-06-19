@@ -1,0 +1,8 @@
+prefix=/home/syx/demo/devel
+
+Name: walle_msgs
+Description: Description of walle_msgs
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

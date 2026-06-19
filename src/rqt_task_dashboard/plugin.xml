@@ -1,0 +1,17 @@
+<library path="src">
+  <class name="rqt_task_dashboard/TaskDashboard"
+         type="rqt_task_dashboard.dashboard_plugin.TaskDashboard"
+         base_class_type="rqt_gui_py::Plugin">
+    <description>
+      Walle sorting dashboard: command, status, vision and emergency stop.
+    </description>
+    <qtgui>
+      <group>
+        <label>Walle</label>
+      </group>
+      <label>Sorting Dashboard</label>
+      <icon type="theme">view-dashboard</icon>
+      <statustip>Robot task control and monitoring</statustip>
+    </qtgui>
+  </class>
+</library>

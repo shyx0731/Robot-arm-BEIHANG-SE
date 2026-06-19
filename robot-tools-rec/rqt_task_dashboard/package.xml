@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rqt_task_dashboard</name>
+  <version>0.1.0</version>
+  <description>RQT dashboard plugin for robot task monitoring and control.</description>
+
+  <maintainer email="robot@todo.todo">robot</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>python_qt_binding</depend>
+  <depend>rqt_gui</depend>
+  <depend>rqt_gui_py</depend>
+  <depend>cv_bridge</depend>
+  <depend>rosservice</depend>
+
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>rospkg</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>walle_core</exec_depend>
+  <exec_depend>wpr_simulation</exec_depend>
+  <exec_depend>rosbridge_server</exec_depend>
+  <exec_depend>rosapi</exec_depend>
+  <exec_depend>image_transport</exec_depend>
+  <exec_depend>image_transport_plugins</exec_depend>
+
+  <export>
+    <rqt_gui plugin="${prefix}/plugin.xml"/>
+  </export>
+</package>

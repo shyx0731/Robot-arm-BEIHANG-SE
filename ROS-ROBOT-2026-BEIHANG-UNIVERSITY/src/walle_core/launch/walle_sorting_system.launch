@@ -1,0 +1,37 @@
+<!-- launch/sorting_system.launch -->
+<launch>
+  <!-- 启动 Gazebo 仿真环境 -->
+  <include file="$(find wpr_simulation)/launch/wpb_home_clean.launch"/>
+  
+  <!-- SLAM 建图 (第一次运行时需要) -->
+  <!--
+  <include file="$(find wpb_home_tutorials)/nav_slam.launch"/>
+  -->
+  
+  <!-- 加载已有地图 (建图完成后使用) -->
+  <arg name="map_file" default="$(find walle_core)/maps/lab.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+  
+  <!-- 导航堆栈 -->
+  <include file="$(find wpb_home_tutorials)/nav_movebase.launch"/>
+  
+  <!-- 区域管理节点 -->
+  <node pkg="walle_core" type="zone_manager.py" name="zone_manager" output="screen"/>
+  
+  <!-- 视觉模拟节点 -->
+  <node pkg="walle_core" type="vision_simulator.py" name="vision_simulator" output="screen"/>
+  
+  <!-- 机械臂节点 -->
+  <node pkg="walle_core" type="arm_node.py" name="arm_node" output="screen"/>
+  
+  <!-- 导航节点 -->
+  <node pkg="walle_core" type="nav_node.py" name="nav_node" output="screen"/>
+  
+  <!-- 主控制节点 -->
+  <node pkg="walle_core" type="fsm_node.py" name="fsm_node" output="screen">
+    <param name="auto_start" value="true"/>
+  </node>
+  
+  <!-- RViz 可视化 -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find walle_core)/rviz/sorting.rviz"/>
+</launch>
